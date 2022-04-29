@@ -1,8 +1,7 @@
 import React from 'react';
 import { Categories, PizzaBlock, SortItem } from '../components';
 
-
-const Home = ({items}) => {
+const Home = ({ items }) => {
   return (
     <div className="container">
       <div className="content__top">
@@ -12,13 +11,20 @@ const Home = ({items}) => {
             items={['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']}
           />
         </div>
-        <SortItem onClickItem items={['популярности', 'цене', 'алфавиту']} />
+        <SortItem
+          onClickItem
+          items={[
+            { name: 'популярности', type: 'popular' },
+            { name: 'цене', type: 'price' },
+            { name: 'алфавиту', type: 'alphaber' },
+          ]}
+        />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {items.map(item => 
-          <PizzaBlock key={item.id} {...item}/>
-        )}
+        {items.map((item) => (
+          <PizzaBlock key={item.id} {...item} />
+        ))}
       </div>
     </div>
   );
