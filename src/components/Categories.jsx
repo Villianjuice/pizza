@@ -4,6 +4,7 @@ const Categories = ({items, onClickItem}) => {
 	const [activeItem, setActiveItem] = useState(null)
 	const onSelectItem = (index) => {
 		setActiveItem(index)
+    onClickItem(index)
 	}
   return (
     <div className="categories">
@@ -16,29 +17,5 @@ const Categories = ({items, onClickItem}) => {
     </div>
   );
 };
-
-// class Categories extends React.Component{
-// 	state = {
-// 		activeItem: null
-// 	}
-// 	onSelectItem = item => {
-// 		this.setState({activeItem:item})
-// 	}
-// 	render() {
-// 		return(
-// 			<div className="categories">
-// 				<ul>
-// 					<li>Все</li>
-// 					{this.props.items.map((name, index) => 
-// 						<li 
-// 						className={this.state.activeItem === index ? 'active' : ''} 
-// 						onClick={() => this.onSelectItem(index)}
-// 						>{name}</li>
-// 					)}
-// 				</ul>
-// 			</div>
-// 		)
-// 	}
-// }
 
 export default Categories;
