@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const SortItem = ({ items, onClickItem }) => {
+const SortItem = React.memo(function SortItem  ({ items, onClickItem }) {
   const [sortPopup, setSortPopup] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const sortRef = useRef();
@@ -58,6 +58,8 @@ const SortItem = ({ items, onClickItem }) => {
       )}
     </div>
   );
-};
+})
+
+
 
 export default SortItem;
