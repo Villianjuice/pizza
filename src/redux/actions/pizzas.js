@@ -5,12 +5,11 @@ export const setLoaded = (bool) => ({
   payload: bool,
 });
 
-export const fetchPizzas = (category, sortBy) => (dispatch) => {
+export const fetchPizzas = (category, sortBy, order) => (dispatch) => {
   dispatch(setLoaded(false))
-  axios.get(`http://localhost:3001/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy}&_order=asc`).then(({ data }) => {
+  axios.get(`http://localhost:3001/pizzas?${category !== null ? `category=${category}` : ''}&_sort=${sortBy}&_order=${order}`).then(({ data }) => {
     dispatch(setPizzas(data));
   });
-  console.log(category, sortBy);
 };
 
 export const setPizzas = (items) => ({

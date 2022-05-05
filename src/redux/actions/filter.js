@@ -6,3 +6,7 @@ export const setCategory = (category) => ({
     type: 'SET_CATEGORY',
     payload: category
 });
+export const setOrder = (order) => ({
+  type: 'SET_ORDER', 
+  payload: order
+})

@@ -54,4 +54,11 @@
       }
     }
   }
+  &__order{
+    width: 20px;
+    margin-left: 6px;
+    &.asc {
+      transform: rotate(180deg) scaleX(-1);
+    }
+  }
 }
