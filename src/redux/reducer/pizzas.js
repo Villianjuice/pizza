@@ -1,16 +1,23 @@
 const initialState = {
-  items: [
-  ]
-}
+  items: [],
+  isLoad: false,
+};
 
 const pizzas = (state = initialState, action) => {
-  if(action.type === 'SET_PIZZAS') {
+  if (action.type === 'SET_PIZZAS') {
     return {
       ...state,
-      items: action.payload
-    }
+      items: action.payload,
+      isLoad: true,
+    };
   }
-  return state
-}
+  if (action.type === 'SET_LOAD') {
+    return {
+      ...state,
+      isLoad: false,
+    };
+  }
+  return state;
+};
 
-export default pizzas
+export default pizzas;

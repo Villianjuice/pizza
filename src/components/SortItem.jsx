@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
-const SortItem = React.memo(function SortItem  ({ items, onClickItem }) {
+
+const SortItem = React.memo(function SortItem({ items, onSelectSort, activeSortType }) {
   const [sortPopup, setSortPopup] = useState(false);
-  const [activeItem, setActiveItem] = useState(0);
   const sortRef = useRef();
+  const labelActiveSortType = items.find((obj) => obj.type === activeSortType).name;
 
   const tooglePopup = () => {
     setSortPopup(!sortPopup);
@@ -15,10 +17,10 @@ const SortItem = React.memo(function SortItem  ({ items, onClickItem }) {
     }
   };
 
-	const selectItem = (index) => {
-		setActiveItem(index)
-		setSortPopup(false);
-	}
+  const selectItem = (type) => {
+    onSelectSort(type);
+    setSortPopup(false);
+  };
 
   useEffect(() => {
     document.body.addEventListener('click', outsideClick);
@@ -28,7 +30,7 @@ const SortItem = React.memo(function SortItem  ({ items, onClickItem }) {
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
-					className={sortPopup ? 'rotate' : ''}
+          className={sortPopup ? 'rotate' : ''}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -40,15 +42,15 @@ const SortItem = React.memo(function SortItem  ({ items, onClickItem }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={tooglePopup}>{items[activeItem].name}</span>
+        <span onClick={tooglePopup}>{labelActiveSortType}</span>
       </div>
       {sortPopup && (
         <div className="sort__popup">
           <ul>
             {items.map((obj, index) => (
               <li
-                onClick={() => selectItem(index)}
-                className={activeItem === index ? 'active' : ''}
+                onClick={() => selectItem(obj)}
+                className={activeSortType === obj.type ? 'active' : ''}
                 key={`${obj.type}_${index}`}>
                 {obj.name}
               </li>
@@ -58,8 +60,15 @@ const SortItem = React.memo(function SortItem  ({ items, onClickItem }) {
       )}
     </div>
   );
-})
+});
 
-
+SortItem.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSelectSort: PropTypes.func.isRequired,
+  activeSortType: PropTypes.string.isRequired,
+};
+SortItem.defaultProps = {
+  activeSortType: 'rating',
+};
 
 export default SortItem;
