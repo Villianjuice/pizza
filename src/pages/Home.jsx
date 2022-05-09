@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BlockLoaded, Categories, PizzaBlock, SortPopup } from '../components';
+import { addPizzaToCard } from '../redux/actions/cart';
 import { fetchPizzas } from '../redux/actions/pizzas';
 import { setCategory, setOrder, setSortBy } from './../redux/actions/filter';
 
@@ -25,6 +26,7 @@ const Home = () => {
     sortBy: filters.sortBy,
   }));
   const order = useSelector(({ filters }) => filters.order);
+  const countPizza = useSelector(({ cart }) => cart.items);
 
   React.useEffect(() => {
     dispatch(fetchPizzas(category, sortBy, order));
@@ -38,16 +40,20 @@ const Home = () => {
   );
   const onSelectOrder = React.useCallback(
     (order) => {
-      dispatch(setOrder(order))
-    }, [dispatch]
-  )
+      dispatch(setOrder(order));
+    },
+    [dispatch],
+  );
   const onClickSortType = React.useCallback(
     (type) => {
       dispatch(setSortBy(type));
     },
     [dispatch],
   );
-  console.log(order);
+
+  const onClickAddPizza = React.useCallback((pizza) => {
+    dispatch(addPizzaToCard(pizza));
+  }, []);
 
   return (
     <div className="container">
@@ -57,12 +63,20 @@ const Home = () => {
           items={categoryNames}
           activeCategory={category}
         />
-        <SortPopup items={sortItems} activeSortType={sortBy} onClickSortType={onClickSortType} order={order} onClickOrder={onSelectOrder} />
+        <SortPopup
+          items={sortItems}
+          activeSortType={sortBy}
+          onClickSortType={onClickSortType}
+          order={order}
+          onClickOrder={onSelectOrder}
+        />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoaded
-          ? items.map((item) => <PizzaBlock key={item.id} {...item} />)
+          ? items.map((item) => (
+              <PizzaBlock countPizza={countPizza[item.id] && countPizza[item.id].length} onClickAddPizza={onClickAddPizza} key={item.id} {...item} />
+            ))
           : Array(12)
               .fill(0)
               .map((_, index) => <BlockLoaded key={index} />)}

@@ -1,10 +1,12 @@
 import classNames from 'classnames';
 import { PropTypes } from 'prop-types';
 import React, { useState } from 'react';
+import Button from '../Button';
 
-const PizzaBlock = ({ name, price, imageUrl, types, sizes }) => {
+const PizzaBlock = ({ id, name, price, imageUrl, types, sizes, onClickAddPizza, countPizza }) => {
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
+  console.log(countPizza);
 
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
@@ -15,6 +17,18 @@ const PizzaBlock = ({ name, price, imageUrl, types, sizes }) => {
   const selectSize = (index) => {
     setActiveSize(index);
   };
+
+  const onAddPizza = () => {
+    const pizza = {
+      id,
+      name,
+      price,
+      imageUrl,
+      type: availableTypes[activeType],
+      size: activeSize
+    }
+    onClickAddPizza(pizza)
+  } 
 
   return (
     <div className="pizza-block">
@@ -47,7 +61,7 @@ const PizzaBlock = ({ name, price, imageUrl, types, sizes }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button onclick={onAddPizza} outline className="button--add">
           <svg
             width="12"
             height="12"
@@ -60,8 +74,11 @@ const PizzaBlock = ({ name, price, imageUrl, types, sizes }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          {countPizza && 
+            <i>{countPizza}</i>
+          }
+          
+        </Button>
       </div>
     </div>
   );
